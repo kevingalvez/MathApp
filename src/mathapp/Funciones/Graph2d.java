@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 
 import java.math.*;
+import mathapp.InfixToPostfix;
 /**
  *
  * @author KevinAlfonso
@@ -23,6 +24,7 @@ public class Graph2d extends Canvas {
     private int scalaX,scalaY, longitudX, longitudY;
     private double limiX, limsX, limiY, limsY;
     private boolean dibujar;
+    private String expr;
     
     public Graph2d(int x, int y){
         this.scalaX = x;
@@ -52,7 +54,9 @@ public class Graph2d extends Canvas {
     
     public int ConvertToPixelY(double puntoY)
     {
-        return (int)((scalaY/longitudY)*Math.abs(puntoY-limiY)+0);
+     //   return (int)((scalaY/longitudY)*Math.abs(puntoY-limiY)+0);
+        //return (int)(ypf + 1 - dyup * |yu - yui|
+        return (int)(scalaY + 1 - (scalaY/longitudY)*Math.abs(puntoY-limiY));
     }
 
     public void dibujar(boolean bol)
@@ -67,9 +71,33 @@ public class Graph2d extends Canvas {
         int lineaY = ConvertToPixelY(0);
         int lineaX = ConvertToPixelX(0);
         g.drawLine(0, lineaY, scalaX, lineaY);
-        g.drawLine(lineaX, 0, lineaX, scalaY);        
+        g.drawLine(lineaX, 0, lineaX, scalaY);
+        
+        graficar(g);
     }
-     
+    
+    public void setExpr(String expr)
+    {
+        this.expr = expr;
+    }
+    
+    private void graficar(Graphics g){
+        if (this.expr != null)
+        {
+            InfixToPostfix a = new InfixToPostfix(this.expr);
+            double step = 0.1, puntoX = this.limiX;
+
+            while (puntoX < this.limsX)
+            {
+                double puntoY = a.evaluar(puntoX);
+                g.setColor(Color.red);
+                int lineaY = ConvertToPixelY(puntoY);
+                int lineaX = ConvertToPixelX(puntoX);
+                g.drawOval(lineaX, lineaY, 5, 5);
+                puntoX +=step;
+            }
+        }
+    }
     @Override
     public void paint(Graphics g) {
         if (this.dibujar)

@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/KevinAlfonso/Documents/NetBeansProjects/MathApp/src/mathapp/MathApp.java</file>
-            <file>file:/C:/Users/KevinAlfonso/Documents/NetBeansProjects/MathApp/src/mathapp/Funciones/Graficador.java</file>
-            <file>file:/C:/Users/KevinAlfonso/Documents/NetBeansProjects/MathApp/src/mathapp/Ventana.java</file>
-            <file>file:/C:/Users/KevinAlfonso/Documents/NetBeansProjects/MathApp/src/mathapp/Funciones/Graph2d.java</file>
-            <file>file:/C:/Users/KevinAlfonso/Documents/NetBeansProjects/MathApp/src/mathapp/Funciones/PaintPane.java</file>
+            <file>file:/C:/Users/kgalvez/Documents/NetBeansProjects/MathApp/src/mathapp/Stack.java</file>
+            <file>file:/C:/Users/kgalvez/Documents/NetBeansProjects/MathApp/src/mathapp/Funciones/Graph2d.java</file>
+            <file>file:/C:/Users/kgalvez/Documents/NetBeansProjects/MathApp/src/mathapp/InfixToPostfix.java</file>
+            <file>file:/C:/Users/kgalvez/Documents/NetBeansProjects/MathApp/src/mathapp/Funciones/Graficador.java</file>
         </group>
     </open-files>
 </project-private>

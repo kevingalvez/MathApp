@@ -36,7 +36,7 @@ public class InfixToPostfix {
     public String ConvertToPostfix()
     {
         String temp = "";
-        boolean num = false;
+        boolean num = false, signo = false;
         String postfix = "";
         for (int i = 0;i < expr.length();i++)
         {                   
@@ -48,7 +48,7 @@ public class InfixToPostfix {
                 case '+': case '-': case '*': case '/':
                         if (num) {
                             num = false;
-                            numeros.Push(temp);
+                            numeros.Push(Double.parseDouble(temp));
                             postfix += "#";
                             temp = "";
                         }
@@ -71,7 +71,7 @@ public class InfixToPostfix {
         }
         if (num) {
             num = false;
-            numeros.Push(temp);
+            numeros.Push(Double.parseDouble(temp));
             postfix += "#";
             temp = "";
         }        
@@ -80,5 +80,33 @@ public class InfixToPostfix {
             postfix += (char)simbolos.Pop();
         }
         return postfix;
+    }
+    
+    public double evaluar(double value)
+    {
+        String postfix  = ConvertToPostfix();
+
+        for (int i = 0; i < postfix.length(); i++)
+        {
+            switch (postfix.charAt(i)) {
+                case '+': 
+                    numeros.Push((double)numeros.Pop() + (double)numeros.Pop());
+                    break;
+                case '-': 
+                    numeros.Push((double)numeros.Pop() - (double)numeros.Pop());
+                    break;                    
+                case '*': 
+                    numeros.Push((double)numeros.Pop() * (double)numeros.Pop());
+                    break;                                        
+                case '/':                    
+                    numeros.Push((double)numeros.Pop() / (double)numeros.Pop());
+                    break;
+                case 'x':
+                    numeros.Push(value);
+                    break;
+            }
+            
+        }
+        return (double)numeros.Top();
     }
 }
