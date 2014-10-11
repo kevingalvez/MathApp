@@ -21,9 +21,9 @@ public class Graficador extends javax.swing.JFrame {
     
     public Graficador() {
         initComponents();
-        grap = new Graph2d(jPanel1.getWidth(),jPanel1.getHeight());
+        grap = new Graph2d(jPanel1.getWidth(),jPanel1.getHeight(),5,5);
         grap.setLimitesX(-5, 5);
-        grap.setLimitesY(-5, 5);
+        grap.setLimitesY(-10, 10);
         grap.dibujar(true);
         jPanel1.add(grap);
     }

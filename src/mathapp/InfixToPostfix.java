@@ -10,48 +10,115 @@ package mathapp;
  * @author kgalvez
  */
 public class InfixToPostfix {
+    
     private String expr;
     private Stack simbolos;
     private Stack numeros;
+    private int n = 100;
+    private boolean signo;
     
     public InfixToPostfix(String expr)
     {
         this.expr = expr;
-        simbolos = new Stack(100);
-        numeros = new Stack(100);
+        simbolos = new Stack(n);
+        numeros = new Stack(n);         
     }
     
-    public int precedencia(char c)
+    private int precedencia(char c)
     {
         int result = 0;
         switch (c) {
+            case '(': result = 0; break;
             case '+': result = 1; break;
             case '-': result = 1; break;
             case '*': result = 2; break;
             case '/': result = 2; break;
+            case '^': result = 3; break;
+            case '~': result = 4; break;
         }
         return result;
     }
+
+    private String verifica_signo(char c)
+    {
+        String postfix = "";
+        if (!signo)
+            if (c =='-')
+              c ='~';
+            else {
+                //error = true;
+            }
+
+        while (!simbolos.isEmpty()&&(precedencia(c)<=precedencia((char)simbolos.Top()))) 
+            postfix += simbolos.Pop();
+
+
+       simbolos.Push(c);
+       signo = false;
+       return postfix;
+    }
+    
+    private boolean isNumeric(String cadena){
+	try {
+		Integer.parseInt(cadena);
+		return true;
+	} catch (NumberFormatException nfe){
+		return false;
+	}
+    }        
     
     public String ConvertToPostfix()
     {
         String temp = "";
-        boolean num = false, signo = false;
+        boolean num = false, signo = true;
         String postfix = "";
-        for (int i = 0;i < expr.length();i++)
+        simbolos.init();
+        numeros.init();
+        int i = 0;
+        while (i < expr.length())
         {                   
             switch (expr.charAt(i)) {
+                case '(': 
+                            simbolos.Push(expr.charAt(i));
+                            i++;
+                        break;
+                case ')': 
+                        while ((!simbolos.isEmpty()) && ((char)simbolos.Top() != '('))
+                        {
+                            postfix += simbolos.Pop();
+                            simbolos.Pop();
+                            i++;
+                            
+                        }
+                    break;
                 case '0': case '1': case '2': case '3': case '4': case '5':
                 case '6': case '7': case '8': case '9': case '.':
-                    temp += expr.charAt(i); num = true; 
+
+                    int j = i;
+
+                    while (j < expr.length() && isNumeric(expr.substring(j, j+1)))  j++;
+                    if (j < expr.length() && expr.charAt(j) == '.') {
+                        j++;
+                       while (j < expr.length() && isNumeric(expr.substring(j, j+1)))  j++;
+                    }
+
+                    numeros.Push(Double.parseDouble(expr.substring(i, j)));
+                    postfix += '#';
+                    
+                    //c:=length(r.exp);
+                    //r.dat[c]:=n;
+                    signo = true;
+                    i = j;
+                    //temp += expr.charAt(i); num = true; 
                     break;
-                case '+': case '-': case '*': case '/':
-                        if (num) {
+                case '+': case '-': case '*': case '/': case '^':
+                        /*if (num) {
                             num = false;
                             numeros.Push(Double.parseDouble(temp));
                             postfix += "#";
                             temp = "";
                         }
+                    
                         if (simbolos.isEmpty())
                         {
                             simbolos.Push(expr.charAt(i));
@@ -63,18 +130,20 @@ public class InfixToPostfix {
                                 postfix += simbolos.Pop();
                             }
                             simbolos.Push(expr.charAt(i));
-                        }
+                        }*/
+                        postfix += verifica_signo(expr.charAt(i));
+                        i++;
 
                     break;
-                default:postfix += expr.charAt(i); break;
+                default:postfix += expr.charAt(i); i++;break;
             }
         }
-        if (num) {
+        /*if (num) {
             num = false;
             numeros.Push(Double.parseDouble(temp));
             postfix += "#";
             temp = "";
-        }        
+        } */       
         while (!simbolos.isEmpty())
         {
             postfix += (char)simbolos.Pop();
@@ -100,6 +169,9 @@ public class InfixToPostfix {
                     break;                                        
                 case '/':                    
                     numeros.Push((double)numeros.Pop() / (double)numeros.Pop());
+                    break;
+                case '~':
+                    numeros.Push(-(double)numeros.Pop());
                     break;
                 case 'x':
                     numeros.Push(value);

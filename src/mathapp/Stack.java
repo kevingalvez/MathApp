@@ -22,6 +22,14 @@ public class Stack {
         this.data = new Object[size];
     }
     
+    public void init()
+    {
+        this.index = 0;
+        for (int i = 0; i < this.size; i++){
+            data[i] = null;
+        }
+    }
+    
     public void Push(Object data)
     {
         if (this.index < size)
