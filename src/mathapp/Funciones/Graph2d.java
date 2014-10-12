@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import java.math.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mathapp.InfixToPostfix;
 /**
  *
@@ -76,7 +78,7 @@ public class Graph2d extends Canvas {
         repaint();
     }
     
-    private void dibujar_plano(Graphics g)
+    private void dibujar_plano(Graphics g) throws Exception
     {
         g.setColor(Color.black);
         int lineaY = ConvertToPixelY(0);
@@ -92,7 +94,7 @@ public class Graph2d extends Canvas {
         this.expr = expr;
     }
     
-    private void graficar(Graphics g){
+    private void graficar(Graphics g) throws Exception{
         if (this.expr != null)
         {
             InfixToPostfix a = new InfixToPostfix(this.expr);
@@ -121,7 +123,11 @@ public class Graph2d extends Canvas {
     @Override
     public void paint(Graphics g) {
         if (this.dibujar)
-            dibujar_plano(g);
+            try {
+                dibujar_plano(g);
+        } catch (Exception ex) {
+            Logger.getLogger(Graph2d.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
