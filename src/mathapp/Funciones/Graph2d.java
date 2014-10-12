@@ -25,16 +25,7 @@ public class Graph2d extends Canvas {
     private boolean dibujar;
     private String expr;
     private int margenX,margenY;
-     /*margenx:=2;
- margeny:=2;
- rangox:=lsx-lix;
- rangoy:=lsy-liy;
- utilx:=form1.image2.Width-2*margenx;
- utily:=form1.image2.Height-2*margeny;
-       
- ppx2d:=trunc(utilx*(x-lix)/rangox+margenx);
- ppy2d:=form1.Image2.Height-trunc(utily*(y-liy)/rangoy+margeny);    
-    */
+
     public Graph2d(int x, int y, int margenX, int margenY){
         this.scalaX = x-2*margenX;
         this.scalaY = y-2*margenY;
@@ -60,15 +51,11 @@ public class Graph2d extends Canvas {
     
     public int ConvertToPixelX(double puntoX)
     {
-        //trunc(utilx*(x-lix)/rangox+margenx);
-        
         return (int)(scalaX*(puntoX-limiX)/longitudX+margenX);
     }
     
     public int ConvertToPixelY(double puntoY)
     {
-     //   return (int)((scalaY/longitudY)*Math.abs(puntoY-limiY)+0);
-        //return (int)(ypf + 1 - dyup * |yu - yui|
         return (scalaY - (int)(scalaY*(puntoY-limiY)/longitudY+margenY));
     }
 
@@ -95,29 +82,35 @@ public class Graph2d extends Canvas {
     }
     
     private void graficar(Graphics g) throws Exception{
-        if (this.expr != null)
+        try 
         {
-            InfixToPostfix a = new InfixToPostfix(this.expr);
-            double step = 0.0001, puntoX = this.limiX;
-            boolean iter = true;
-            int actX = 0,actY = 0;
-            while (puntoX < this.limsX)
+            if (this.expr != null)
             {
-                if (puntoX>0)
-                    puntoX = puntoX+0;
-                double puntoY = a.evaluar(puntoX);
-                g.setColor(Color.red);
-                int lineaY = ConvertToPixelY(puntoY);
-                int lineaX = ConvertToPixelX(puntoX);
-                if (iter)
-                    g.drawLine(lineaX, lineaY, lineaX, lineaY);
-                else
-                    g.drawLine(actX, actY, lineaX, lineaY);
-                actX = lineaX;
-                actY = lineaY;
-                //g.drawOval(lineaX, lineaY, 5, 5);
-                puntoX +=step;
+                InfixToPostfix a = new InfixToPostfix(this.expr);
+                double step = 0.0001, puntoX = this.limiX;
+                boolean iter = true;
+                int actX = 0,actY = 0;
+                while (puntoX < this.limsX)
+                {
+                    if (puntoX>0)
+                        puntoX = puntoX+0;
+                    double puntoY = a.evaluar(puntoX);
+                    g.setColor(Color.red);
+                    int lineaY = ConvertToPixelY(puntoY);
+                    int lineaX = ConvertToPixelX(puntoX);
+                    if (iter)
+                        g.drawLine(lineaX, lineaY, lineaX, lineaY);
+                    else
+                        g.drawLine(actX, actY, lineaX, lineaY);
+                    actX = lineaX;
+                    actY = lineaY;
+
+                    puntoX +=step;
+                }
             }
+        } catch (Exception e) 
+        {
+            System.err.println("Exception: " + e.getMessage());
         }
     }
     @Override
