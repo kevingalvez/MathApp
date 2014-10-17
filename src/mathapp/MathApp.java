@@ -18,7 +18,8 @@ public class MathApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new Graficador().show();
+        //new Graficador().show();
+        new prueba();
 //        new Ventana();
     }
     

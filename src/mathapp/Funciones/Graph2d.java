@@ -25,6 +25,7 @@ public class Graph2d extends Canvas {
     private boolean dibujar;
     private String expr;
     private int margenX,margenY;
+    private double step;
 
     public Graph2d(int x, int y, int margenX, int margenY){
         this.scalaX = x-2*margenX;
@@ -48,6 +49,11 @@ public class Graph2d extends Canvas {
         this.limsY = ys;
         longitudY = (int)(ys-yi);
     }
+    
+    public void setStep(int presicion)
+    {
+        step = (double)1/presicion;
+    }    
     
     public int ConvertToPixelX(double puntoX)
     {
@@ -87,7 +93,7 @@ public class Graph2d extends Canvas {
             if (this.expr != null)
             {
                 InfixToPostfix a = new InfixToPostfix(this.expr);
-                double step = 0.0001, puntoX = this.limiX;
+                double puntoX = this.limiX;
                 boolean iter = true;
                 int actX = 0,actY = 0;
                 while (puntoX < this.limsX)
